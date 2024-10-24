@@ -39,4 +39,7 @@ pip3 install -r requirements.txt
 cd
 
 python3 app.py
- 
+
+
+Please run docker image and push to docker repo.
+create a cluster and create a task defination file. create a task execution role that provides access to aws parameter store. run the task and verify it. 
