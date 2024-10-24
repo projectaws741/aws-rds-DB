@@ -1,5 +1,7 @@
 # user-information-app-rds
-This is a application which collects user information and stores this in RDS and also retrieves this 
+This is a application which collects user information and stores this in RDS and also retrieves this and fetches endpoint,username and password from aws parameter store.
+
+create RDS_ENDPOINT, RDS_USERNAME and RDS_PASSWORD in aws parameter store and use RDS_PASSWORD as secure string.
 
 #Add postgres REPO
 sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-$(rpm -E %{rhel})-$(uname -m)/pgdg-redhat-repo-latest.noarch.rpm
@@ -32,6 +34,7 @@ psycopg2-binary
 boto3==1.18.0
 
 pip3 install -r requirements.txt
+
 
 cd
 
