@@ -3,6 +3,11 @@ This is a application which collects user information and stores this in RDS and
 
 #Add postgres REPO
 sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-$(rpm -E %{rhel})-$(uname -m)/pgdg-redhat-repo-latest.noarch.rpm
+
+If the above cmd is not woking use below cmd to install postgres client version 15
+
+#sudo dnf install postgresql15
+
 #Disable Amazon Linux’s Default PostgreSQL (if necessary):
 sudo yum remove postgresql
 #Install PostgreSQL Client Version 13
@@ -24,6 +29,7 @@ Flask==2.0.1
 PyMySQL==1.0.2
 Werkzeug==2.0
 psycopg2-binary
+boto3==1.18.0
 
 pip3 install -r requirements.txt
 
