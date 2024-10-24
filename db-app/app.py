@@ -8,7 +8,7 @@ app = Flask(__name__)
 # Function to get parameter from AWS Parameter Store
 def get_parameter(name):
     try:
-        client = boto3.client('ssm')
+        client = boto3.client('ssm', region_name='us-east-1')
         parameter = client.get_parameter(Name=name, WithDecryption=True)
         return parameter['Parameter']['Value']
     except (BotoCoreError, ClientError) as e:
