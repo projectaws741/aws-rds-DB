@@ -1,0 +1,30 @@
+FROM python:3.9-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Install system dependencies required for psycopg2
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    git \
+    gcc \
+    libpq-dev \
+    && apt-get clean \
+    && pip install --no-cache-dir awscli boto3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
+WORKDIR /app
+
+# Clone the GitHub repository
+RUN git clone -b AppParameterStore --single-branch https://github.com/projectaws741/aws-rds-DB.git .
+
+# Install Python dependencies
+RUN pip install -r /app/db-app/templates/requirements.txt
+
+# Expose the port that the app runs on
+EXPOSE 5000
+
+# Command to run the application (replace with your actual entry point, if needed)
+CMD ["python3", "/app/db-app/app.py"]
