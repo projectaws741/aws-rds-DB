@@ -18,6 +18,13 @@ go to template folder
 
 cd /root/aws-rds/db-app/templates
 
+requiremnts.txt must have below versions.
+
+Flask==2.0.1
+PyMySQL==1.0.2
+Werkzeug==2.0
+psycopg2-binary
+
 pip3 install -r requirements.txt
 
 cd
