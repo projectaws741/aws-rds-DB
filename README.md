@@ -1,7 +1,7 @@
 # user-information-app-rds
 This is a application which collects user information and stores this in RDS and also retrieves this and fetches endpoint,username and password from aws parameter store.
 
-create RDS_ENDPOINT, RDS_USERNAME and RDS_PASSWORD in aws parameter store and use RDS_PASSWORD as secure string.
+Create a MyDatabaseSecret in aws secret manager. Init give RDS_ENDPOINT, RDS_USERNAME,RDS_PASSWORD as key value pair and update the secret name in app.py file.
 
 #Add postgres REPO
 sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-$(rpm -E %{rhel})-$(uname -m)/pgdg-redhat-repo-latest.noarch.rpm
