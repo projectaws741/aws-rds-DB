@@ -2,29 +2,43 @@ from flask import Flask, render_template, request
 import psycopg2
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
+import json
 
 app = Flask(__name__)
 
-# Function to get parameter from AWS Parameter Store
-def get_parameter(name):
+# Function to get secrets from AWS Secrets Manager
+def get_secret(secret_name):
     try:
-        client = boto3.client('ssm', region_name='us-east-1')
-        parameter = client.get_parameter(Name=name, WithDecryption=True)
-        return parameter['Parameter']['Value']
+        client = boto3.client('secretsmanager', region_name='us-east-1')
+        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
+        secret = get_secret_value_response['SecretString']
+        return json.loads(secret)
     except (BotoCoreError, ClientError) as e:
-        print(f"Error fetching parameter {name}: {e}")
+        print(f"Error fetching secret {secret_name}: {e}")
         return None
 
-# Fetch database configuration from AWS Parameter Store
-db_host = get_parameter('RDS_ENDPOINT')
+# Fetch database configuration from AWS Secrets Manager
+secrets = get_secret('MyDatabaseSecret')  # Replace with your actual secret name
+
+if secrets:
+    db_host = secrets.get('RDS_ENDPOINT')
+    db_user = secrets.get('RDS_USERNAME')
+    db_password = secrets.get('RDS_PASSWORD')
+else:
+    db_host = None
+    db_user = None
+    db_password = None
+
 db_port = '5432'  # Assuming the port is constant
-db_user = get_parameter('RDS_USERNAME')
-db_password = get_parameter('RDS_PASSWORD')
-db_name = 'postgres'  # Assuming the database name is constant
+db_name = 'postgres'  # Assuming the database name is known
 table_name = 'postgres_user'
 
 # Connect to the database
 def get_db_connection():
+    if not db_host or not db_user or not db_password:
+        print("Database configuration is incomplete. Check your secrets.")
+        return None
+
     try:
         connection = psycopg2.connect(
             host=db_host,
