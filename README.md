@@ -30,4 +30,6 @@ pip3 install -r requirements.txt
 cd
 
 python3 app.py
+
+Please use data.py to insert data records in to db.
  
