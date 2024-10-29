@@ -1,25 +1,14 @@
 from flask import Flask, render_template, request
 import psycopg2
-import boto3
-from botocore.exceptions import BotoCoreError, ClientError
+import os
 
 app = Flask(__name__)
 
-# Function to get parameter from AWS Parameter Store
-def get_parameter(name):
-    try:
-        client = boto3.client('ssm', region_name='us-east-1')
-        parameter = client.get_parameter(Name=name, WithDecryption=True)
-        return parameter['Parameter']['Value']
-    except (BotoCoreError, ClientError) as e:
-        print(f"Error fetching parameter {name}: {e}")
-        return None
-
-# Fetch database configuration from AWS Parameter Store
-db_host = get_parameter('RDS_ENDPOINT')
+# Fetch database configuration from environment variables
+db_host = os.getenv('RDS_ENDPOINT')
 db_port = '5432'  # Assuming the port is constant
-db_user = get_parameter('RDS_USERNAME')
-db_password = get_parameter('RDS_PASSWORD')
+db_user = os.getenv('RDS_USERNAME')
+db_password = os.getenv('RDS_PASSWORD')
 db_name = 'postgres'  # Assuming the database name is constant
 table_name = 'postgres_user'
 
