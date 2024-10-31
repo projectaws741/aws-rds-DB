@@ -132,7 +132,6 @@ def get_data():
 # Health check endpoint
 @app.route('/health', methods=['GET'])
 def health_check():
-    # Here you can add additional checks as needed
     db_connection = get_db_connection()
     if db_connection:
         db_connection.close()
@@ -145,6 +144,21 @@ def health_check():
 def names():
     names = get_all_names()
     return jsonify({"names": names}), 200
+
+# New endpoint to indicate if the application has started
+@app.route('/start', methods=['GET'])
+def start():
+    return jsonify({"status": "Application has started successfully."}), 200
+
+# New endpoint to check if the application is ready to accept traffic
+@app.route('/ready', methods=['GET'])
+def ready():
+    db_connection = get_db_connection()
+    if db_connection:
+        db_connection.close()
+        return jsonify({"status": "Application is ready to accept traffic."}), 200
+    else:
+        return jsonify({"status": "Application is not ready.", "error": "Database connection failed."}), 503
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
