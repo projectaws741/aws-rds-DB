@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import psycopg2
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
@@ -78,6 +78,24 @@ def get_all_records():
         print("Failed to connect to the database")
         return []
 
+# Retrieve all names from the database
+def get_all_names():
+    connection = get_db_connection()
+    names = []
+    if connection:
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f"SELECT name FROM {table_name}")
+                names = [row[0] for row in cursor.fetchall()]  # Fetch only names
+            return names
+        except psycopg2.Error as e:
+            print("Error while executing SQL query:", str(e))
+        finally:
+            connection.close()
+    else:
+        print("Failed to connect to the database")
+    return names
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -110,6 +128,23 @@ def submit():
 def get_data():
     records = get_all_records()
     return render_template('data.html', records=records)
+
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    # Here you can add additional checks as needed
+    db_connection = get_db_connection()
+    if db_connection:
+        db_connection.close()
+        return jsonify({"status": "healthy"}), 200
+    else:
+        return jsonify({"status": "unhealthy", "error": "Database connection failed"}), 500
+
+# New endpoint to get all names
+@app.route('/names', methods=['GET'])
+def names():
+    names = get_all_names()
+    return jsonify({"names": names}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
