@@ -18,7 +18,7 @@ RUN apt-get update \
 WORKDIR /app
 
 # Clone the GitHub repository
-RUN git clone -b AppParameterStore --single-branch https://github.com/projectaws741/aws-rds-DB.git .
+RUN git clone -b healthcheckForProbes --single-branch https://github.com/projectaws741/aws-rds-DB.git .
 
 # Install Python dependencies
 RUN pip install -r /app/db-app/templates/requirements.txt
