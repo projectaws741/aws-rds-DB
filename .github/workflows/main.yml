@@ -19,4 +19,4 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/githubactions:latest db-app
       - name: push docker image to docker hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-python-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/githubactions:latest
