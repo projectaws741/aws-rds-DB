@@ -16,7 +16,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD}}
       - name: Building the docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/githubactions:latest db-app
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/githubactions:latest db-app/dockerfile
       - name: push docker image to docker hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/my-python-app:latest
