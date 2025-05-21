@@ -1,19 +1,19 @@
-name: Cleaning all docker images
-on:
-  push:
-    branches: [AppParameterStore]
-  workflow_dispatch:
-jobs:
-  cleanupDocker:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cleanup Docker
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          script: |
-            docker stop $(docker ps -q) || true
-            docker rm $(docker ps -aq) || true
-            docker rmi $(docker images -q) --force || true
+# name: Cleaning all docker images
+# on:
+#   push:
+#     branches: [AppParameterStore]
+#   workflow_dispatch:
+# jobs:
+#   cleanupDocker:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Cleanup Docker
+#         uses: appleboy/ssh-action@v1.0.0
+#         with:
+#           host: ${{ secrets.EC2_HOST }}
+#           username: ${{ secrets.EC2_USER }}
+#           key: ${{ secrets.EC2_KEY }}
+#           script: |
+#             docker stop $(docker ps -q) || true
+#             docker rm $(docker ps -aq) || true
+#             docker rmi $(docker images -q) --force || true
