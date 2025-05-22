@@ -7,10 +7,6 @@ pipeline {
         DOCKERFILE_PATH = "db-app/Dockerfile"
     }
 
-    triggers {
-        // Webhook from GitHub will handle the trigger
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -45,10 +41,10 @@ pipeline {
 
     post {
         success {
-            echo "Docker image pushed: ${DOCKER_IMAGE}:${IMAGE_TAG}"
+            echo "✅ Docker image pushed: ${DOCKER_IMAGE}:${IMAGE_TAG}"
         }
         failure {
-            echo "Build failed. Check the logs."
+            echo "❌ Build failed. Check the logs."
         }
     }
 }
