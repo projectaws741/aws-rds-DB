@@ -13,17 +13,17 @@ pipeline {
                 checkout scm
             }
         }
-
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} -f ${DOCKERFILE_PATH} ."
-            }
-        }
         stage('Verify Docker Access') {
             steps {
                 sh 'whoami && groups && docker ps'
             }
         }
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} -f ${DOCKERFILE_PATH} ."
+            }
+        }
+        
         stage('Login to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
