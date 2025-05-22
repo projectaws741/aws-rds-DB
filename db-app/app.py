@@ -104,7 +104,7 @@ def submit():
         finally:
             connection.close()
     else:
-        return "Failed to connect to the database because database is not up"
+        return "Failed to connect to the database because database is not up 1"
 
 @app.route('/getdata')
 def get_data():
