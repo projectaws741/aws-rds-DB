@@ -35,7 +35,7 @@ def get_db_connection():
         )
         return connection
     except psycopg2.Error as e:
-        print("Connection to the database failed:", str(e))
+        print("Connection to the database failed due to db:", str(e))
         return None
 
 # Create the 'user_info' table if it doesn't exist
