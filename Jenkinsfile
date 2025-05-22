@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "projectaws/aws-rds-db"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
-        DOCKERFILE_PATH = "/var/lib/jenkins/workspace/multi_AppParameterStore/db-app/Dockerfile"
+        DOCKERFILE_PATH = "db-app/Dockerfile"
     }
 
     stages {
@@ -16,9 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build("${DOCKER_IMAGE}:${IMAGE_TAG}", "-f ${DOCKERFILE_PATH} .")
-                }
+                sh "docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} -f ${DOCKERFILE_PATH} ."
             }
         }
 
@@ -32,9 +30,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                script {
-                    sh "docker push ${DOCKER_IMAGE}:${IMAGE_TAG}"
-                }
+                sh "docker push ${DOCKER_IMAGE}:${IMAGE_TAG}"
             }
         }
     }
