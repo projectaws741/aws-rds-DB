@@ -44,7 +44,7 @@ pipeline {
             echo "✅ Docker image pushed: ${DOCKER_IMAGE}:${IMAGE_TAG}"
         }
         failure {
-            echo "❌ Build failed. Check the logs."
+            echo "❌ Build failed. Check the logs 1."
         }
     }
 }
